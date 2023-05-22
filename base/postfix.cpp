@@ -130,6 +130,12 @@ Polynom TPostfix::calculate(Table** tab)
 			sd.add(a * b);
 			continue;
 		}
+//		if (con == "/_")
+//		{
+//			a = sd.get_top(); b = sd.get_top();
+////			sd.add(b / a);
+//			continue;
+//		}
 		if (con == "dx" || con == "dy" || con == "dz")
 		{
 			a = sd.get_top();
@@ -150,7 +156,7 @@ Polynom TPostfix::calculate(Table** tab)
 		}
 		else
 		{
-			a = *tab[4]->find(con)->poly;
+			a = *tab[4]->find(con)->poly;/////////////////////////////////
 			sd.add(a);
 		}
 	}

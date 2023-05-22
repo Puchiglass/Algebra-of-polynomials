@@ -1,7 +1,7 @@
 #ifndef _ARRAY_TABLE_H_
 #define _ARRAY_TABLE_H_
 
-
+// TODO: Memory allocation
 #include "table.h"
 #include "table_string.h"
 #include <utility>
@@ -27,6 +27,7 @@ public:
     }
     virtual ~ArrayTable()
     {
+        // Delete key - not  data
         for (int i = 0; i < size; i++) {
             delete  tbl[i];
         }

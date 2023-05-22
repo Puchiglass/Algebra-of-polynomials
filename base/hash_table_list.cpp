@@ -1,4 +1,5 @@
 #include "hash_table_list.h"
+#include "eq_exception.h"
 #include "list.h"
 #include "table_string.h"
 
@@ -41,6 +42,10 @@ TableBody* HashTableList::find(const std::string& key)
 
 bool HashTableList::insert(const std::string& key, TableBody& data)
 {
+    if (is_full()) {
+        throw EqException(error_codes::k_OUT_OF_MEMORY);
+    }
+
     TableString* tmp = find_str(key);
     if (tmp != nullptr) {
         return false;

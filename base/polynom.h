@@ -73,6 +73,8 @@ public:
     friend std::istream& operator>>(std::istream& is, Polynom& pl);
     std::string str() const;
     friend bool operator==(const Polynom& rhs, const Polynom& lhs);
+    //This block strongly depends on the preferences of a particular developer
+
 
     void add_monom(const Monom& monom);
     Polynom sort(const Polynom& pl) const;
@@ -98,6 +100,6 @@ Polynom operator*(const Polynom& lhs, double num);
 Polynom operator*(double lhs, const Polynom& rhs);
 Polynom operator-(const Polynom& lhs, const Polynom& rhs);
 
-#endif 
+#endif  //_POLYNOM_H_
 
 

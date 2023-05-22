@@ -1,4 +1,5 @@
 #include "sorted_array_table.h"
+#include "eq_exception.h"
 #include "table_string.h"
 #include <algorithm>
 
@@ -57,6 +58,10 @@ TableBody* SortTable::find(const std::string& key)
 
 bool SortTable::insert(const std::string& key, TableBody& data)
 {
+    if (is_full()) {
+        throw (EqException(error_codes::k_OUT_OF_MEMORY));
+    }
+
     TableString* tmp = find_str(key);
     if (tmp != nullptr) {
         return false;
@@ -105,4 +110,6 @@ SortTable& SortTable::operator=(const SortTable &other)
     sort(tbl, data_cnt);
     curr_pos = 0;
     return *this;
+
+
 }

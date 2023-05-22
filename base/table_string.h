@@ -7,6 +7,7 @@
 #include "polynom.h"
 
 using std::string;
+
 class TableString;
 
 
@@ -42,9 +43,18 @@ public:
     {
         const int k_MAX_NAME = 16;
         //const int k_MAX_POLY_STRING = 102;
+        if (key_.size() > k_MAX_NAME)
+            throw EqException(error_codes::k_OVERFLOW);
         for (int i = 0; i < key.size(); i++)
         {
+
             char c = key[i];
+            if (c == 'I')
+                throw EqException(error_codes::k_USING_RESERVED_NAME);
+            if (c == 'd' && (key[i + 1] == 'x' || key[i + 1] == 'y' || key[i + 1] == 'z'))
+                throw EqException(error_codes::k_USING_RESERVED_NAME);
+            if (c >= '9' + 1 && c <= '9' + 7)
+                throw EqException(error_codes::k_USING_PUNCTUATION_MARKS);
         }
     }
 

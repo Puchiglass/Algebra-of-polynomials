@@ -11,6 +11,7 @@ public:
     TableBody* find(const std::string& key);
     bool insert(const std::string& key, TableBody& data_);
     bool erase(const std::string& key);
+ //   void print();
 
     bool empty()
     {
@@ -33,17 +34,18 @@ public:
         return false;
     }
 
+    // go to first position of table, returns is_tab_ended()
     bool reset()
     {
         cur_pos = data.begin();
         return is_tab_ended();
     }
-
+    // return cur_pos == data.end();
     bool is_tab_ended() const
     {
         return cur_pos == data.end();
     }
-
+    // go to next position, returns is_tab_ended
     bool go_next()
     {
         if (!is_tab_ended())

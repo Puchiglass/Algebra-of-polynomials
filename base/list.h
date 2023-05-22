@@ -1,8 +1,16 @@
+/**
+  TODO:
+    [] Fix errors
+
+
+**/
 #ifndef LIST_H_
 #define LIST_H_
 
 
 #include <vector>
+
+#include "eq_exception.h"
 
 
 template <class T>
@@ -116,7 +124,8 @@ public:
             size--;
         }
     }
-
+    // To delete elem from table.
+    // It is not normal list method but it helps in tables
     void erase_first_found(T p_)
     {
         NodeList<T>* p;
@@ -156,6 +165,9 @@ public:
 
     List(std::vector<T>& v) : size(0), pFirst(nullptr), pLast(nullptr)
     {
+        if (v.size() == 0) {
+            throw(EqException(error_codes::k_EMPTY));
+        }
         for (T tmp : v) {
             add(tmp);
         }
@@ -164,6 +176,9 @@ public:
 
     T& operator[](int index)
     {
+        if ((index > size - 1) || (index < 0)) {
+            throw(EqException(error_codes::k_INCORRECT_INDEX));
+        }
         int n = 0;
 
         NodeList<T>* pCurrent = pFirst;
@@ -174,6 +189,7 @@ public:
             pCurrent = pCurrent->pNext;
             n++;
         }
+        throw(EqException(error_codes::k_INCORRECT_INDEX));
     }
 
     inline bool operator==(const List& other)
@@ -229,6 +245,10 @@ public:
             list.size = 0;
             list.pFirst = nullptr;
             list.pLast = nullptr;
+
+            //std::swap(pFirst, list.pFirst)
+            //std::swap(pLast, list.pLast)
+            //std::swap(size, list.size)
         }
         return *this;
     }
@@ -306,6 +326,8 @@ public:
 
     NodeList<T>* get_node(int index) const
     {
+        if ((index > size - 1) || (index < 0))
+            throw(EqException(error_codes::k_INCORRECT_INDEX));
         if (index == size - 1) {
             return pLast;
         }

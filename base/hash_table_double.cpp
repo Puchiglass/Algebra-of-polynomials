@@ -1,4 +1,5 @@
 #include "hash_table_double.h"
+#include "eq_exception.h"
 #include "table_string.h"
 #include "list.h"
 #include "table.h"
@@ -68,6 +69,9 @@ bool HashTableDouble::erase(const std::string& key)
 
 bool HashTableDouble::insert(const std::string& key, TableBody& data)
 {
+    if (is_full()) {
+        throw EqException(error_codes::k_OUT_OF_MEMORY);
+    }
     TableString* tm = find_str(key);
     if (tm != nullptr) {
         return false;
@@ -76,17 +80,17 @@ bool HashTableDouble::insert(const std::string& key, TableBody& data)
     int h1 = Hash1(key);
     int h2 = Hash2(key);
     TableString* tmp = new TableString(key, data);
-    int first_deleted = -1; 
+    int first_deleted = -1; // ���������� ������ ���������� (���������) �������
     while (first_deleted == -1 && flag[h1] != 0 && i < default_size)
     {
         if (table[h1]->key == key && flag[h1] == 1)
-            return false; 
-        if (flag[h1] == -1) 
+            return false; // ����� ������� ��� ����
+        if (flag[h1] == -1) // ������� ����� ��� ������ ��������
             first_deleted = h1;
         h1 = (h1 + h2) % default_size;
         i++;
     }
-    if (flag[h1] == 0) 
+    if (flag[h1] == 0) // ���� �� ������� ����������� �����, ������� ����� Node
     {
         table[h1] = tmp;
         flag[h1] = 1;

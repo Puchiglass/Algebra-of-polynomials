@@ -15,6 +15,8 @@ public:
     ~TStack();
     void add(T tmp);
 
+    //Changed in accordance with the coding rules
+
     T get_top();
     T info_top();
     bool is_empty();

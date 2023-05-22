@@ -1,4 +1,5 @@
 #include "array_table.h"
+#include "eq_exception.h"
 #include "table.h"
 #include "table_string.h"
 #include <new>

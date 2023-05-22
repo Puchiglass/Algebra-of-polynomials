@@ -1,4 +1,5 @@
 #include "polynom.h"
+#include "eq_exception.h"
 #include "list.h"
 #include <fstream>
 #include <cmath>
@@ -10,12 +11,16 @@
 
 Monom& Monom::operator+=(const Monom& other)
 {
+    if (deg != other.deg)
+        throw EqException(error_codes::k_INCORRECT_OPERATION);
     coef += other.coef;
     return *this;
 }
 
 Monom& Monom::operator-=(const Monom& other)
 {
+    if (deg != other.deg)
+        throw EqException(error_codes::k_INCORRECT_OPERATION);
     coef -= other.coef;
     return *this;
 }
@@ -64,6 +69,7 @@ std::istream& operator>>(std::istream& is, Monom& mnm)
     int i = 0;
     std::string tmp;
 
+    // Search coefficient
     while (char c = smon[i]) {
         if (c == 'x' || c == 'y' || c == 'z')
             break;
@@ -81,6 +87,7 @@ std::istream& operator>>(std::istream& is, Monom& mnm)
         mnm.coef = 1.0;
     }
 
+    // Search deg`s
     tmp.clear();
 
 
@@ -320,6 +327,7 @@ std::istream& operator>>(std::istream& is, Polynom& pl)
     tmp.clear();
 
 
+    // Delete spaces 
     polynom_str.erase(std::remove(polynom_str.begin(), polynom_str.end(), ' '), polynom_str.end());
 
     int i = 0;
@@ -576,6 +584,8 @@ void Polynom::write_to_file(std::string path) const
 {
     std::ofstream out;
     out.open(path);
+    if (!out.is_open())
+        throw EqException(error_codes::k_FILE_SYSTEM_ERROR);
     operator<<(out, *this);
     out.close();
 }
@@ -584,12 +594,18 @@ void Polynom::read_from_file(std::string path)
 {
     std::ifstream in;
     in.open(path);
+    if (!in.is_open())
+        throw EqException(error_codes::k_FILE_SYSTEM_ERROR);
     operator>>(in, *this);
     in.close();
 }
 
 double Polynom::calculate_in_point(double x, double y, double z)
 {
+    if (polynom.get_size() == 0) {
+        throw EqException(error_codes::k_CALCULATE_EMPTY_EXPRESSION);
+    }
+
     int a, b, c;
     double result = 0;
     for (List<Monom>::iterator it = polynom.begin(); it != polynom.end(); ++it) {

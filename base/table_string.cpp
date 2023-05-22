@@ -4,7 +4,7 @@ std::ostream& operator<<(std::ostream& os, const TableString* ts)
     const char vert = 179, horiz = 196;
     const char left_up = 192, up = 193, rigth_up = 217;
     const char left_down = 218, down = 194, rigth_down = 191;
-
+    //console length = 120
     os << left_down;
     for (int i = 1; i < 17; i++)
         os << horiz;
